@@ -1,4 +1,4 @@
-# bra-perfect
+# Bra Perfect
 
 Bra Perfect helps you find your ideal bra in seconds. The shape, size, position, symmetry, spacing, firmness and amount of relaxation of individual women's breasts vary considerably, and this app proves to be a useful tool for calculating your bra size.
 
