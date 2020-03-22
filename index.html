@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+    <meta charset="UTF-8">
+    <title>Bra Perfect</title>
+    <meta name="title" content="Bra Perfect"/>
+    <meta name="description" content="Find the perfect bra size for you!"/>
+    <meta name="abstract" content="Find the perfect bra size for you!"/>
+    <meta name="keywords" content="bra, breast, bikini, girl"/>
+    <meta name="author" content="Armando ''FL3R'' Fiore" />
+    <meta name="copyright" content="© Armando ''FL3R'' Fiore" />
+    <link rel="icon" href="images/favicon.png">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/scripts.min.js"></script>
+    <script src="js/onsenui.js"></script>
+    <script src="js/suggeriscitaglia.js"></script>
+    <script>ons.platform.select('android');</script>
+    <script>
+        window.fn={}; window.fn.toggleMenu=function (){document.getElementById('appSplitter').left.toggle();}; window.fn.loadView=function (index){document.getElementById('appTabbar').setActiveTab(index); document.getElementById('sidemenu').close();}; window.fn.loadLink=function (url){window.open(url, '_blank');}; window.fn.pushPage=function (page, anim){if (anim){document.getElementById('appNavigator').pushPage(page.id,{data:{title: page.title}, animation: anim});}else{document.getElementById('appNavigator').pushPage(page.id,{data:{title: page.title}});}};
+    </script>
+    <link rel="stylesheet" href="css/onsenui.css">
+    <link rel="stylesheet" href="css/onsen-css-components.css">
+</head>
+<body>
+<ons-navigator id="appNavigator" swipeable swipe-target-width="80px">
+    <ons-page>
+        <ons-splitter id="appSplitter">
+            <ons-splitter-side id="sidemenu" page="sidemenu.html" swipeable side="left" collapse=""
+                               width="260px"></ons-splitter-side>
+            <ons-splitter-content page="tabbar.html"></ons-splitter-content>
+        </ons-splitter>
+    </ons-page>
+</ons-navigator>
+<template id="sidemenu.html">
+    <ons-page>
+        <div class="profile-pic"><img src="images/ic_launcher_white.png"></div>
+        <ons-list>
+            <ons-list-item onclick="fn.loadView(0)">
+                <div class="left">
+                    <ons-icon fixed-width class="list-item__icon" icon="ion-heart"></ons-icon>
+                </div>
+                <div class="center">Suggest size</div>
+            </ons-list-item>
+            <ons-list-item onclick="fn.loadView(1)">
+                <div class="left">
+                    <ons-icon fixed-width class="list-item__icon" icon="ion-wand"></ons-icon>
+                </div>
+                <div class="center">Convert size</div>
+            </ons-list-item>
+            <ons-list-item onclick="fn.loadView(2)">
+                <div class="left">
+                    <ons-icon fixed-width class="list-item__icon" icon="ion-arrow-swap"></ons-icon>
+                </div>
+                <div class="center">Inches/Cm</div>
+            </ons-list-item>
+            <ons-list-item onclick="fn.loadView(3)">
+                <div class="left">
+                    <ons-icon fixed-width class="list-item__icon" icon="ion-help-buoy"></ons-icon>
+                </div>
+                <div class="center">How to measure</div>
+            </ons-list-item>
+            <ons-list-item onclick="fn.loadView(4)">
+                <div class="left">
+                    <ons-icon fixed-width class="list-item__icon"
+                              icon="ion-information-circled"></ons-icon>
+                </div>
+                <div class="center">Copyright</div>
+            </ons-list-item>
+            <ons-list-item
+                    onclick="fn.loadLink('https://play.google.com/store/apps/dev?id=7842739190600497484')">
+                <div class="left">
+                    <ons-icon fixed-width class="list-item__icon"
+                              icon="ion-android-playstore"></ons-icon>
+                </div>
+                <div class="center">Google Play</div>
+            </ons-list-item>
+            <ons-list-item onclick="fn.loadLink('https://twitter.com/Armando_Fiore')">
+                <div class="left">
+                    <ons-icon fixed-width class="list-item__icon"
+                              icon="ion-social-twitter"></ons-icon>
+                </div>
+                <div class="center">Twitter</div>
+            </ons-list-item>
+        </ons-list>
+        <script>
+            ons.getScriptPage().onInit=function(){// Set ons-splitter-side animation this.parentElement.setAttribute('animation', ons.platform.isAndroid() ? 'overlay' : 'reveal');};
+        </script>
+    </ons-page>
+</template>
+<template id="suggerisci.html">
+    <ons-page id="forms-page">
+        <form id="braCalculator" target="#here">
+            <p class="intro">Enter the measurements in centimeters to get suggestions on the size
+                that suits you best.<br><br></p>
+            <div class="divauto">
+                <ons-card id="card50true">
+                    <div class="title">Bust line measure</div>
+                    <input min="0" style="text-align:center;" id="seno" type="number"
+                           placeholder="93 cm" oninput="lengthConverter(this.id,this.value)"
+                           onchange="lengthConverter(this.id,this.value)">
+                </ons-card>
+                <ons-card id="card50true">
+                    <div class="title">Band line measure</div>
+                    <input min="0" style="text-align:center;" id="torace" type="number"
+                           placeholder="80 cm" oninput="lengthConverter(this.id,this.value)"
+                           onchange="lengthConverter(this.id,this.value)">
+                </ons-card>
+            </div>
+            <div class="divauto">
+                <ons-button id="calc" class="btn btn-primary btn-block">Suggest</ons-button>
+            </div>
+            <ons-card id="card50">
+                <ons-list-item>
+                    <div class="left"><img class="list-item__thumbnail" src="images/us.png"><img
+                            class="list-item__thumbnail" src="images/ca.png"><img
+                            class="list-item__thumbnail" src="images/uk.png"></div>
+                    <div class="center">
+                        <div id="uscaukSize" style="text-align:center !important;"></div>
+                    </div>
+                </ons-list-item>
+            </ons-card>
+            <ons-card id="card50">
+                <ons-list-item>
+                    <div class="left"><img class="list-item__thumbnail" src="images/eu.png"><img
+                            class="list-item__thumbnail" src="images/jp.png"><img
+                            class="list-item__thumbnail" src="images/white.png"></div>
+                    <div class="center">
+                        <div id="eujpSize" style="text-align:center !important;"></div>
+                    </div>
+                </ons-list-item>
+            </ons-card>
+            <ons-card id="card50">
+                <ons-list-item>
+                    <div class="left"><img class="list-item__thumbnail" src="images/au.png"><img
+                            class="list-item__thumbnail" src="images/nz.png"><img
+                            class="list-item__thumbnail" src="images/white.png"></div>
+                    <div class="center">
+                        <div id="aunzSize" style="text-align:center !important;"></div>
+                    </div>
+                </ons-list-item>
+            </ons-card>
+            <ons-card id="card50">
+                <ons-list-item>
+                    <div class="left"><img class="list-item__thumbnail" src="images/cz.png"><img
+                            class="list-item__thumbnail" src="images/it.png"><img
+                            class="list-item__thumbnail" src="images/white.png"></div>
+                    <div class="center">
+                        <div id="czitSize" style="text-align:center !important;"></div>
+                    </div>
+                </ons-list-item>
+            </ons-card>
+            <ons-card id="card50">
+                <ons-list-item>
+                    <div class="left"><img class="list-item__thumbnail" src="images/fr.png"><img
+                            class="list-item__thumbnail" src="images/es.png"><img
+                            class="list-item__thumbnail" src="images/be.png"></div>
+                    <div class="center">
+                        <div id="fresbeSize" style="text-align:center !important;"></div>
+                    </div>
+                </ons-list-item>
+            </ons-card>
+            <!--<ons-card id="card50"><ons-list-item><div><div id="debugSize" style="text-align:center !important;"></div></div></ons-list-item></ons-card>-->
+        </form>
+        <script>$('#braCalculator').submit(function (){return false;});</script>
+    </ons-page>
+</template>
+<template id="convertitore.html">
+    <ons-page>
+        <p class="intro">Click on the size of the bra according to your country, it will be
+            converted automatically.<br><br></p>
+        <div class="pageauto">
+            <ons-card id="card50">
+                <ons-list-item>
+                    <div class="left"><img class="list-item__thumbnail" src="images/us.png"><img
+                            class="list-item__thumbnail" src="images/ca.png"><img
+                            class="list-item__thumbnail" src="images/uk.png"></div>
+                    <div class="center">
+                        <ons-select name="convertUSCAUK" id="convertUSCAUK" class="doConvert">
+                            'USUK'
+                            <option value="0">30A</option>
+                            <option value="1">30B</option>
+                            <option value="2">30C</option>
+                            <option value="3">30D</option>
+                            <option value="4">30DD</option>
+                            <option value="5">30E</option>
+                            <option value="6">30F</option>
+                            <option value="7">30G</option>
+                            <option value="8">30H</option>
+                            <option value="9">30I</option>
+                            <option value="10">30J</option>
+                            <option value="11">32A</option>
+                            <option value="12">32B</option>
+                            <option value="13">32C</option>
+                            <option value="14">32D</option>
+                            <option value="15">32DD</option>
+                            <option value="16">32E</option>
+                            <option value="17">32F</option>
+                            <option value="18">32G</option>
+                            <option value="19">32H</option>
+                            <option value="20">32I</option>
+                            <option value="21">32J</option>
+                            <option value="22">34A</option>
+                            <option value="23">34B</option>
+                            <option value="24">34C</option>
+                            <option value="25">34D</option>
+                            <option value="26">34DD</option>
+                            <option value="27">34E</option>
+                            <option value="28">34F</option>
+                            <option value="29">34G</option>
+                            <option value="30">34H</option>
+                            <option value="31">34I</option>
+                            <option value="32">34J</option>
+                            <option value="33">36A</option>
+                            <option value="34">36B</option>
+                            <option value="35">36C</option>
+                            <option value="36">36D</option>
+                            <option value="37">36DD</option>
+                            <option value="38">36E</option>
+                            <option value="39">36F</option>
+                            <option value="40">36G</option>
+                            <option value="41">36H</option>
+                            <option value="42">36I</option>
+                            <option value="43">36J</option>
+                            <option value="44">38A</option>
+                            <option value="45">38B</option>
+                            <option value="46">38C</option>
+                            <option value="47">38D</option>
+                            <option value="48">38DD</option>
+                            <option value="49">38E</option>
+                            <option value="50">38F</option>
+                            <option value="51">38G</option>
+                            <option value="52">38H</option>
+                            <option value="53">38I</option>
+                            <option value="54">38J</option>
+                            <option value="55">40A</option>
+                            <option value="56">40B</option>
+                            <option value="57">40C</option>
+                            <option value="58">40D</option>
+                            <option value="59">40DD</option>
+                            <option value="60">40E</option>
+                            <option value="61">40F</option>
+                            <option value="62">40G</option>
+                            <option value="63">40H</option>
+                            <option value="64">40I</option>
+                            <option value="65">40J</option>
+                            <option value="66">42A</option>
+                            <option value="67">42B</option>
+                            <option value="68">42C</option>
+                            <option value="69">42D</option>
+                            <option value="70">42DD</option>
+                            <option value="71">42E</option>
+                            <option value="72">42F</option>
+                            <option value="73">42G</option>
+                            <option value="74">42H</option>
+                            <option value="75">42I</option>
+                            <option value="76">42J</option>
+                            <option value="77">44A</option>
+                            <option value="78">44B</option>
+                            <option value="79">44C</option>
+                            <option value="80">44D</option>
+                            <option value="81">44DD</option>
+                            <option value="82">44E</option>
+                            <option value="83">44F</option>
+                            <option value="84">44G</option>
+                            <option value="85">44H</option>
+                            <option value="86">44I</option>
+                            <option value="87">44J</option>
+                            <option value="88">46A</option>
+                            <option value="89">46B</option>
+                            <option value="90">46C</option>
+                            <option value="91">46D</option>
+                            <option value="92">46DD</option>
+                            <option value="93">46E</option>
+                            <option value="94">46F</option>
+                            <option value="95">46G</option>
+                            <option value="96">46H</option>
+                            <option value="97">46I</option>
+                            <option value="98">46J</option>
+                            <option value="99">48A</option>
+                            <option value="100">48B</option>
+                            <option value="101">48C</option>
+                            <option value="102">48D</option>
+                            <option value="103">48DD</option>
+                            <option value="104">48E</option>
+                            <option value="105">48F</option>
+                            <option value="106">48G</option>
+                            <option value="107">48H</option>
+                            <option value="108">48I</option>
+                            <option value="109">48J</option>
+                        </ons-select>
+                    </div>
+                </ons-list-item>
+            </ons-card>
+            <ons-card id="card50">
+                <ons-list-item>
+                    <div class="left"><img class="list-item__thumbnail" src="images/eu.png"><img
+                            class="list-item__thumbnail" src="images/jp.png"><img
+                            class="list-item__thumbnail" src="images/white.png"></div>
+                    <div class="center">
+                        <ons-select name="convertEU-JP" id="convertEU-JP" class="doConvert">
+                            'EU-JP'
+                            <option value="0">65A</option>
+                            <option value="1">65B</option>
+                            <option value="2">65C</option>
+                            <option value="3">65D</option>
+                            <option value="4">65E</option>
+                            <option value="5">65F</option>
+                            <option value="6">65G</option>
+                            <option value="7">65H</option>
+                            <option value="8">65I</option>
+                            <option value="9">65J</option>
+                            <option value="10">65K</option>
+                            <option value="11">70A</option>
+                            <option value="12">70B</option>
+                            <option value="13">70C</option>
+                            <option value="14">70D</option>
+                            <option value="15">70E</option>
+                            <option value="16">70F</option>
+                            <option value="17">70G</option>
+                            <option value="18">70H</option>
+                            <option value="19">70I</option>
+                            <option value="20">70J</option>
+                            <option value="21">70K</option>
+                            <option value="22">75A</option>
+                            <option value="23">75B</option>
+                            <option value="24">75C</option>
+                            <option value="25">75D</option>
+                            <option value="26">75E</option>
+                            <option value="27">75F</option>
+                            <option value="28">75G</option>
+                            <option value="29">75H</option>
+                            <option value="30">75I</option>
+                            <option value="31">75J</option>
+                            <option value="32">75K</option>
+                            <option value="33">80A</option>
+                            <option value="34">80B</option>
+                            <option value="35">80C</option>
+                            <option value="36">80D</option>
+                            <option value="37">80E</option>
+                            <option value="38">80F</option>
+                            <option value="39">80G</option>
+                            <option value="40">80H</option>
+                            <option value="41">80I</option>
+                            <option value="42">80J</option>
+                            <option value="43">80K</option>
+                            <option value="44">85A</option>
+                            <option value="45">85B</option>
+                            <option value="46">85C</option>
+                            <option value="47">85D</option>
+                            <option value="48">85E</option>
+                            <option value="49">85F</option>
+                            <option value="50">85G</option>
+                            <option value="51">85H</option>
+                            <option value="52">85I</option>
+                            <option value="53">85J</option>
+                            <option value="54">85K</option>
+                            <option value="55">90A</option>
+                            <option value="56">90B</option>
+                            <option value="57">90C</option>
+                            <option value="58">90D</option>
+                            <option value="59">90E</option>
+                            <option value="60">90F</option>
+                            <option value="61">90G</option>
+                            <option value="62">90H</option>
+                            <option value="63">90I</option>
+                            <option value="64">90J</option>
+                            <option value="65">90K</option>
+                            <option value="66">95A</option>
+                            <option value="67">95B</option>
+                            <option value="68">95C</option>
+                            <option value="69">95D</option>
+                            <option value="70">95E</option>
+                            <option value="71">95F</option>
+                            <option value="72">95G</option>
+                            <option value="73">95H</option>
+                            <option value="74">95I</option>
+                            <option value="75">95J</option>
+                            <option value="76">95K</option>
+                            <option value="77">100A</option>
+                            <option value="78">100B</option>
+                            <option value="79">100C</option>
+                            <option value="80">100D</option>
+                            <option value="81">100E</option>
+                            <option value="82">100F</option>
+                            <option value="83">100G</option>
+                            <option value="84">100H</option>
+                            <option value="85">100I</option>
+                            <option value="86">100J</option>
+                            <option value="87">100K</option>
+                            <option value="88">105A</option>
+                            <option value="89">105B</option>
+                            <option value="90">105C</option>
+                            <option value="91">105D</option>
+                            <option value="92">105E</option>
+                            <option value="93">105F</option>
+                            <option value="94">105G</option>
+                            <option value="95">105H</option>
+                            <option value="96">105I</option>
+                            <option value="97">105J</option>
+                            <option value="98">105K</option>
+                            <option value="99">110A</option>
+                            <option value="100">110B</option>
+                            <option value="101">110C</option>
+                            <option value="102">110D</option>
+                            <option value="103">110E</option>
+                            <option value="104">110F</option>
+                            <option value="105">110G</option>
+                            <option value="106">110H</option>
+                            <option value="107">110I</option>
+                            <option value="108">110J</option>
+                            <option value="109">110K</option>
+                        </ons-select>
+                    </div>
+                </ons-list-item>
+            </ons-card>
+            <ons-card id="card50">
+                <ons-list-item>
+                    <div class="left"><img class="list-item__thumbnail" src="images/au.png"><img
+                            class="list-item__thumbnail" src="images/nz.png"><img
+                            class="list-item__thumbnail" src="images/white.png"></div>
+                    <div class="center">
+                        <ons-select name="convertAU-NZ" id="convertAU-NZ" class="doConvert">
+                            'AU-NZ'
+                            <option value="0">8AA</option>
+                            <option value="1">8A</option>
+                            <option value="2">8B</option>
+                            <option value="3">8C</option>
+                            <option value="4">8D</option>
+                            <option value="5">8DD</option>
+                            <option value="6">8E</option>
+                            <option value="7">8F</option>
+                            <option value="8">8G</option>
+                            <option value="9">8H</option>
+                            <option value="10">8I</option>
+                            <option value="11">10AA</option>
+                            <option value="12">10A</option>
+                            <option value="13">10B</option>
+                            <option value="14">10C</option>
+                            <option value="15">10D</option>
+                            <option value="16">10DD</option>
+                            <option value="17">10E</option>
+                            <option value="18">10F</option>
+                            <option value="19">10G</option>
+                            <option value="20">10H</option>
+                            <option value="21">10I</option>
+                            <option value="22">12AA</option>
+                            <option value="23">12A</option>
+                            <option value="24">12B</option>
+                            <option value="25">12C</option>
+                            <option value="26">12D</option>
+                            <option value="27">12DD</option>
+                            <option value="28">12E</option>
+                            <option value="29">12F</option>
+                            <option value="30">12G</option>
+                            <option value="31">12H</option>
+                            <option value="32">12I</option>
+                            <option value="33">14AA</option>
+                            <option value="34">14A</option>
+                            <option value="35">14B</option>
+                            <option value="36">14C</option>
+                            <option value="37">14D</option>
+                            <option value="38">14DD</option>
+                            <option value="39">14E</option>
+                            <option value="40">14F</option>
+                            <option value="41">14G</option>
+                            <option value="42">14H</option>
+                            <option value="43">14I</option>
+                            <option value="44">16AA</option>
+                            <option value="45">16A</option>
+                            <option value="46">16B</option>
+                            <option value="47">16C</option>
+                            <option value="48">16D</option>
+                            <option value="49">16DD</option>
+                            <option value="50">16E</option>
+                            <option value="51">16F</option>
+                            <option value="52">16G</option>
+                            <option value="53">16H</option>
+                            <option value="54">16I</option>
+                            <option value="55">18AA</option>
+                            <option value="56">18A</option>
+                            <option value="57">18B</option>
+                            <option value="58">18C</option>
+                            <option value="59">18D</option>
+                            <option value="60">18DD</option>
+                            <option value="61">18E</option>
+                            <option value="62">18F</option>
+                            <option value="63">18G</option>
+                            <option value="64">18H</option>
+                            <option value="65">18I</option>
+                            <option value="66">20AA</option>
+                            <option value="67">20A</option>
+                            <option value="68">20B</option>
+                            <option value="69">20C</option>
+                            <option value="70">20D</option>
+                            <option value="71">20DD</option>
+                            <option value="72">20E</option>
+                            <option value="73">20F</option>
+                            <option value="74">20G</option>
+                            <option value="75">20H</option>
+                            <option value="76">20I</option>
+                            <option value="77">22AA</option>
+                            <option value="78">22A</option>
+                            <option value="79">22B</option>
+                            <option value="80">22C</option>
+                            <option value="81">22D</option>
+                            <option value="82">22DD</option>
+                            <option value="83">22E</option>
+                            <option value="84">22F</option>
+                            <option value="85">22G</option>
+                            <option value="86">22H</option>
+                            <option value="87">22I</option>
+                            <option value="88">24AA</option>
+                            <option value="89">24A</option>
+                            <option value="90">24B</option>
+                            <option value="91">24C</option>
+                            <option value="92">24D</option>
+                            <option value="93">24DD</option>
+                            <option value="94">24E</option>
+                            <option value="95">24F</option>
+                            <option value="96">24G</option>
+                            <option value="97">24H</option>
+                            <option value="98">24I</option>
+                            <option value="99">26AA</option>
+                            <option value="100">26A</option>
+                            <option value="101">26B</option>
+                            <option value="102">26C</option>
+                            <option value="103">26D</option>
+                            <option value="104">26DD</option>
+                            <option value="105">26E</option>
+                            <option value="106">26F</option>
+                            <option value="107">26G</option>
+                            <option value="108">26H</option>
+                            <option value="109">26I</option>
+                        </ons-select>
+                    </div>
+                </ons-list-item>
+            </ons-card>
+            <ons-card id="card50">
+                <ons-list-item>
+                    <div class="left"><img class="list-item__thumbnail" src="images/cz.png"><img
+                            class="list-item__thumbnail" src="images/it.png"><img
+                            class="list-item__thumbnail" src="images/white.png"></div>
+                    <div class="center">
+                        <ons-select name="convertCZ-IT" id="convertCZ-IT" class="doConvert">
+                            'CZ-IT'
+                            <option value="0">0AA</option>
+                            <option value="1">0A</option>
+                            <option value="2">0B</option>
+                            <option value="3">0C</option>
+                            <option value="4">0D</option>
+                            <option value="5">0E</option>
+                            <option value="6">0F</option>
+                            <option value="7">0G</option>
+                            <option value="8">0H</option>
+                            <option value="9">0I</option>
+                            <option value="10">0J</option>
+                            <option value="11">0K</option>
+                            <option value="12">2A</option>
+                            <option value="13">2B</option>
+                            <option value="14">2C</option>
+                            <option value="15">2D</option>
+                            <option value="16">2E</option>
+                            <option value="17">2F</option>
+                            <option value="18">2G</option>
+                            <option value="19">2H</option>
+                            <option value="20">2I</option>
+                            <option value="21">2J</option>
+                            <option value="22">2K</option>
+                            <option value="23">3A</option>
+                            <option value="24">3B</option>
+                            <option value="25">3C</option>
+                            <option value="26">3D</option>
+                            <option value="27">3E</option>
+                            <option value="28">3F</option>
+                            <option value="29">3G</option>
+                            <option value="30">3H</option>
+                            <option value="31">3I</option>
+                            <option value="32">3J</option>
+                            <option value="33">3K</option>
+                            <option value="34">4A</option>
+                            <option value="35">4B</option>
+                            <option value="36">4C</option>
+                            <option value="37">4D</option>
+                            <option value="38">4E</option>
+                            <option value="39">4F</option>
+                            <option value="40">4G</option>
+                            <option value="41">4H</option>
+                            <option value="42">4I</option>
+                            <option value="43">4J</option>
+                            <option value="44">4K</option>
+                            <option value="45">5A</option>
+                            <option value="46">5B</option>
+                            <option value="47">5C</option>
+                            <option value="48">5D</option>
+                            <option value="49">5E</option>
+                            <option value="50">5F</option>
+                            <option value="51">5G</option>
+                            <option value="52">5H</option>
+                            <option value="53">5I</option>
+                            <option value="54">5J</option>
+                            <option value="55">5K</option>
+                            <option value="56">6A</option>
+                            <option value="57">6B</option>
+                            <option value="58">6C</option>
+                            <option value="59">6D</option>
+                            <option value="60">6E</option>
+                            <option value="61">6F</option>
+                            <option value="62">6G</option>
+                            <option value="63">6H</option>
+                            <option value="64">6I</option>
+                            <option value="65">6J</option>
+                            <option value="66">6K</option>
+                            <option value="67">7A</option>
+                            <option value="68">7B</option>
+                            <option value="69">7C</option>
+                            <option value="70">7D</option>
+                            <option value="71">7E</option>
+                            <option value="72">7F</option>
+                            <option value="73">7G</option>
+                            <option value="74">7H</option>
+                            <option value="75">7I</option>
+                            <option value="76">7J</option>
+                            <option value="77">7K</option>
+                            <option value="78">8A</option>
+                            <option value="79">8B</option>
+                            <option value="80">8C</option>
+                            <option value="81">8D</option>
+                            <option value="82">8E</option>
+                            <option value="83">8F</option>
+                            <option value="84">8G</option>
+                            <option value="85">8H</option>
+                            <option value="86">8I</option>
+                            <option value="87">8J</option>
+                            <option value="88">8K</option>
+                            <option value="89">9A</option>
+                            <option value="90">9B</option>
+                            <option value="91">9C</option>
+                            <option value="92">9D</option>
+                            <option value="93">9E</option>
+                            <option value="94">9F</option>
+                            <option value="95">9G</option>
+                            <option value="96">9H</option>
+                            <option value="97">9I</option>
+                            <option value="98">9J</option>
+                            <option value="99">9K</option>
+                            <option value="99">9A</option>
+                            <option value="100">9B</option>
+                            <option value="101">9C</option>
+                            <option value="102">9D</option>
+                            <option value="103">9E</option>
+                            <option value="104">9F</option>
+                            <option value="105">9G</option>
+                            <option value="106">9H</option>
+                            <option value="107">9I</option>
+                            <option value="108">9J</option>
+                            <option value="109">9K</option>
+                        </ons-select>
+                    </div>
+                </ons-list-item>
+            </ons-card>
+            <ons-card id="card50">
+                <ons-list-item>
+                    <div class="left"><img class="list-item__thumbnail" src="images/fr.png"><img
+                            class="list-item__thumbnail" src="images/es.png"><img
+                            class="list-item__thumbnail" src="images/be.png"></div>
+                    <div class="center">
+                        <ons-select name="convertFR-ES-BE" id="convertFR-ES-BE" class="doConvert">
+                            'FR-ES-BE'
+                            <option value="0">80A</option>
+                            <option value="1">80B</option>
+                            <option value="2">80C</option>
+                            <option value="3">80D</option>
+                            <option value="4">80E</option>
+                            <option value="5">80F</option>
+                            <option value="6">80G</option>
+                            <option value="7">80H</option>
+                            <option value="8">80I</option>
+                            <option value="9">80J</option>
+                            <option value="10">80K</option>
+                            <option value="11">85A</option>
+                            <option value="12">85B</option>
+                            <option value="13">85C</option>
+                            <option value="14">85D</option>
+                            <option value="15">85E</option>
+                            <option value="16">85F</option>
+                            <option value="17">85G</option>
+                            <option value="18">85H</option>
+                            <option value="19">85I</option>
+                            <option value="20">85J</option>
+                            <option value="21">85K</option>
+                            <option value="22">90A</option>
+                            <option value="23">90B</option>
+                            <option value="24">90C</option>
+                            <option value="25">90D</option>
+                            <option value="26">90E</option>
+                            <option value="27">90F</option>
+                            <option value="28">90G</option>
+                            <option value="29">90H</option>
+                            <option value="30">90I</option>
+                            <option value="31">90J</option>
+                            <option value="32">90K</option>
+                            <option value="33">95A</option>
+                            <option value="34">95B</option>
+                            <option value="35">95C</option>
+                            <option value="36">95D</option>
+                            <option value="37">95E</option>
+                            <option value="38">95F</option>
+                            <option value="39">95G</option>
+                            <option value="40">95H</option>
+                            <option value="41">95I</option>
+                            <option value="42">95J</option>
+                            <option value="43">95K</option>
+                            <option value="44">100A</option>
+                            <option value="45">100B</option>
+                            <option value="46">100C</option>
+                            <option value="47">100D</option>
+                            <option value="48">100E</option>
+                            <option value="49">100F</option>
+                            <option value="50">100G</option>
+                            <option value="51">100H</option>
+                            <option value="52">100I</option>
+                            <option value="53">100J</option>
+                            <option value="54">100K</option>
+                            <option value="55">105A</option>
+                            <option value="56">105B</option>
+                            <option value="57">105C</option>
+                            <option value="58">105D</option>
+                            <option value="59">105E</option>
+                            <option value="60">105F</option>
+                            <option value="61">105G</option>
+                            <option value="62">105H</option>
+                            <option value="63">105I</option>
+                            <option value="64">105J</option>
+                            <option value="65">105K</option>
+                            <option value="66">110A</option>
+                            <option value="67">110B</option>
+                            <option value="68">110C</option>
+                            <option value="69">110D</option>
+                            <option value="70">110E</option>
+                            <option value="71">110F</option>
+                            <option value="72">110G</option>
+                            <option value="73">110H</option>
+                            <option value="74">110I</option>
+                            <option value="75">110J</option>
+                            <option value="76">110K</option>
+                            <option value="77">115A</option>
+                            <option value="78">115B</option>
+                            <option value="79">115C</option>
+                            <option value="80">115D</option>
+                            <option value="81">115E</option>
+                            <option value="82">115F</option>
+                            <option value="83">115G</option>
+                            <option value="84">115H</option>
+                            <option value="85">115I</option>
+                            <option value="86">115J</option>
+                            <option value="87">115K</option>
+                            <option value="88">120A</option>
+                            <option value="89">120B</option>
+                            <option value="90">120C</option>
+                            <option value="91">120D</option>
+                            <option value="92">120E</option>
+                            <option value="93">120F</option>
+                            <option value="94">120G</option>
+                            <option value="95">120H</option>
+                            <option value="96">120I</option>
+                            <option value="97">120J</option>
+                            <option value="98">120K</option>
+                            <option value="99">125A</option>
+                            <option value="100">125B</option>
+                            <option value="101">125C</option>
+                            <option value="102">125D</option>
+                            <option value="103">125E</option>
+                            <option value="104">125F</option>
+                            <option value="105">125G</option>
+                            <option value="106">125H</option>
+                            <option value="107">125I</option>
+                            <option value="108">125J</option>
+                            <option value="109">125K</option>
+                        </ons-select>
+                    </div>
+                </ons-list-item>
+            </ons-card>
+        </div>
+    </ons-page>
+</template>
+<template id="pollicicentimetri.html">
+    <ons-page id="forms-page">
+        <p class="intro">Easily convert your measurements into inches and centimeters.<br><br></p>
+        <div class="divauto">
+            <ons-card id="card50true">
+                <div class="title">Inches</div>
+                <input min="0" id="inputInches" type="number" placeholder="44,09 in"
+                       oninput="lengthConverter(this.id,this.value)"
+                       onchange="lengthConverter(this.id,this.value)">
+            </ons-card>
+            <ons-card id="card50true">
+                <div class="title">Centimeters</div>
+                <input min="0" id="inputcm" type="number" placeholder="112 cm"
+                       oninput="lengthConverter(this.id,this.value)"
+                       onchange="lengthConverter(this.id,this.value)">
+            </ons-card>
+        </div>
+        <div class="divauto">
+            <ons-button
+                    onclick="document.getElementById('inputInches').value='',document.getElementById('inputcm').value=''">
+                Clear
+            </ons-button>
+        </div>
+        <script>
+            function lengthConverter(source,valNum){valNum=parseFloat(valNum); var inputInches=document.getElementById("inputInches"); var inputcm=document.getElementById("inputcm"); if (source=="inputInches"){inputcm.value=(valNum/0.39370).toFixed(2);}if (source=="inputcm"){inputInches.value=(valNum*0.39370).toFixed(2);}}
+        </script>
+    </ons-page>
+</template>
+<template id="comemisurare.html">
+    <ons-page>
+        <p class="intro">To find the perfect size of your bra you need two values: the bust line and
+            the band line.<br><br></p>
+        <div class="divauto">
+            <ons-card id="card50true">
+                <img src="images/seno.jpg" style="width: 100%">
+                <div class="title">Bust</div>
+                <div class="content">To find the circumference of the breast, keep your back
+                    straight, upright, with your arms soft at your sides; then pass the tape measure
+                    to the height of the nipples.
+                </div>
+            </ons-card>
+            <ons-card id="card50true">
+                <img src="images/torace.jpg" style="width: 100%">
+                <div class="title">Band</div>
+                <div class="content">Stay in the same position, and pass the tape measure under the
+                    breast.
+                </div>
+            </ons-card>
+        </div>
+        <ons-card>
+            <div class="content">In the choice of a bra the size is expressed with a number and
+                letters: the bust line is linked to the cup, or the letters, while the band line to
+                a formula that results in the numerical value.
+            </div>
+        </ons-card>
+    </ons-page>
+</template>
+<template id="copyright.html">
+    <ons-page>
+        <ons-card>
+            <div class="title">Bra Perfect</div>
+            <div class="content">Bra Perfect is an app created by Armando "FL3R" Fiore.</div>
+            <div class="content">Thanks for using Bra Perfect, you've helped a developer increase
+                his self-esteem!<br/><br/></div>
+            <div class="content">Questions, advice, perplexities?</div>
+            <div class="content">If you want to ask me a question, you want to send your opinion or
+                you have a doubt, do not hesitate to contact me.
+            </div>
+        </ons-card>
+        <ons-card>
+            <div class="title">Copyright</div>
+            <div class="content">This software is provided "as is" and any express or implied
+                warranties, including but not limited to, implied warranties of merchantability and
+                fitness for a particular purpose are disclaimed. In no case will the copyright
+                holder be held liable for any direct, indirect, connected, particular, exemplary or
+                consequential damage (including, but not limited to, procurement of alternative
+                goods or services, loss of usefulness, data or profits) however caused and on any
+                assumption of responsibility, as per contract, objective liability, or wrong
+                (including negligence or otherwise) arising in any way from the use of this software
+                even if aware of the possibility of such damage.
+            </div>
+        </ons-card>
+        <ons-fab position="bottom right" id="fab-twitter">
+            <a href="https://twitter.com/Armando_Fiore">
+                <ons-icon icon="ion-social-twitter" id="fab-twitter-text"></ons-icon>
+            </a>
+        </ons-fab>
+    </ons-page>
+</template>
+<template id="tabbar.html">
+    <ons-page id="tabbar-page">
+        <ons-toolbar>
+            <div class="left">
+                <ons-toolbar-button onclick="fn.toggleMenu()">
+                    <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">Home</div>
+            <div class="right"></div>
+        </ons-toolbar>
+        <ons-tabbar swipeable id="appTabbar" position="bottom">
+            <ons-tab label="Suggest size" icon="ion-heart" page="suggerisci.html" active></ons-tab>
+            <ons-tab label="Convert size" icon="ion-wand" page="convertitore.html"></ons-tab>
+            <ons-tab label="Inches/Cm" icon="ion-arrow-swap"
+                     page="pollicicentimetri.html"></ons-tab>
+            <ons-tab label="How to measure" icon="ion-help-buoy" page="comemisurare.html"></ons-tab>
+            <ons-tab label="Copyright" icon="ion-information-circled"
+                     page="copyright.html"></ons-tab>
+        </ons-tabbar>
+        <script>
+            ons.getScriptPage().addEventListener('prechange', function(event){if (event.target.matches('#appTabbar')){event.currentTarget.querySelector('ons-toolbar .center').innerHTML=event.tabItem.getAttribute('label');}});
+        </script>
+    </ons-page>
+</template>
+</body>
+</html>
