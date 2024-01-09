@@ -1,4 +1,4 @@
-![Bra Perfect Logo](https://github.com/FL3R/bra-perfect/blob/master/images/favicon.png?raw=true)
+![Bra Perfect Logo](https://github.com/FL3R/bra-perfect/blob/master/images/logo.png?raw=true)
 # Bra Perfect
 
 **Bra Perfect** helps you find your ideal bra in seconds. The shape, size, position, symmetry, spacing, firmness and amount of relaxation of individual women's breasts vary considerably, and this app proves to be a useful tool for **calculating your bra size**.
