@@ -1,0 +1,4 @@
+Flags from Decathlon Payment Vectors by Decathlon under Apache license
+Bulma framework by Bulma under MIT lincense
+Some icons from Font Awesome Free 6.5.1 by Font Awesome under CC BY 4.0 license
+Girl photos by Claudio_Scott on Pixabay under Pixabay license
